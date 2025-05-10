@@ -1,0 +1,18 @@
+import os
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
+
+INPUT_EXCEL_PATH = os.path.join(DATA_DIR, 'Telco_customer_churn.xlsx')
+OUTPUT_CSV_PATH = os.path.join(DATA_DIR, 'Telco_customer_churn_cleaned.csv')
+RF_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'artifacts', 'random_forest.pkl')
+
+TEST_SIZE = 0.2
+RANDOM_STATE = 42
+
+# Random Forest parameters
+RF_N_ESTIMATORS = 100
+RF_MAX_DEPTH = None
+
+
