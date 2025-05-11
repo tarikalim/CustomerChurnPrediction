@@ -13,8 +13,8 @@ from models.base_model import BaseModel
 
 def load_processed_data():
     df = pd.read_csv(OUTPUT_CSV_PATH)
-    X = df.drop(columns=['Churn Label'])
-    y = df['Churn Label']
+    X = df.drop(columns=['Churn'])
+    y = df['Churn']
     return train_test_split(
         X, y,
         test_size=TEST_SIZE,
