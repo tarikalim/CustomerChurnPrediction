@@ -7,7 +7,9 @@ from sklearn.metrics import (
     recall_score, f1_score, matthews_corrcoef
 )
 
-from config import OUTPUT_CSV_PATH, TEST_SIZE, RANDOM_STATE, RF_N_ESTIMATORS, RF_MAX_DEPTH, RF_MODEL_PATH
+from config import OUTPUT_CSV_PATH, TEST_SIZE, RANDOM_STATE, RF_N_ESTIMATORS, RF_MAX_DEPTH, RF_MODEL_PATH, \
+    RF_REPORT_PATH
+from evaluation.plots import EvaluationReport
 from models.base_model import BaseModel
 
 
@@ -54,3 +56,18 @@ def main_rf():
 
     model.save(RF_MODEL_PATH)
     print(f"Model saved at {RF_MODEL_PATH}")
+
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test)[:, 1]
+
+    fi = model.pipeline.named_steps['model'].feature_importances_
+    fn = X_test.columns
+
+    report = EvaluationReport(
+        y_true=y_test,
+        y_pred=y_pred,
+        y_proba=y_proba,
+        feature_importances=fi,
+        feature_names=fn
+    )
+    report.save_report(RF_REPORT_PATH)
