@@ -55,7 +55,7 @@ def main_rf():
     print('Random Forest Results:', results)
 
     model.save(RF_MODEL_PATH)
-    print(f"Model saved at {RF_MODEL_PATH}")
+    print(f"Random Forest model saved at {RF_MODEL_PATH}")
 
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:, 1]
