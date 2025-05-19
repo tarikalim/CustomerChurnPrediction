@@ -1,3 +1,13 @@
+"""
+This module implements a Random Forest classifier using the BaseModel framework.
+It handles data loading, model training, evaluation, and reporting.
+
+Key features:
+- No scaling required (unlike logistic regression)
+- Feature importance extraction
+- Balanced class weights for handling imbalanced churn data
+"""
+
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
@@ -14,6 +24,12 @@ from models.base_model import BaseModel
 
 
 def load_processed_data():
+    """
+    Load cleaned CSV and split into train/test sets.
+
+    Returns:
+        X_train, X_test, y_train, y_test: Split dataset components
+    """
     df = pd.read_csv(OUTPUT_CSV_PATH)
     X = df.drop(columns=['Churn'])
     y = df['Churn']
@@ -26,6 +42,13 @@ def load_processed_data():
 
 
 class RandomForestModel(BaseModel):
+    """
+    Random Forest model implementation for churn prediction.
+
+    This class extends BaseModel to provide a random forest classifier.
+    Note: Unlike LogisticRegression, no scaling is required in the pipeline.
+    """
+
     def __init__(self):
         rf = RandomForestClassifier(
             n_estimators=RF_N_ESTIMATORS,
@@ -40,6 +63,16 @@ class RandomForestModel(BaseModel):
 
 
 def main_rf():
+    """
+    Main function to run the random forest modeling pipeline.
+
+    This function:
+    1. Loads and splits the processed data
+    2. Trains the random forest model
+    3. Evaluates model performance with multiple metrics
+    4. Saves the model and generates an evaluation report
+    5. Extracts feature importances (a key advantage over logistic regression)
+    """
     X_train, X_test, y_train, y_test = load_processed_data()
     model = RandomForestModel()
     model.fit(X_train, y_train)

@@ -3,6 +3,9 @@ from models.random_forest import main_rf
 from models.logistic_regression import main_lr
 
 
+"""
+Main function to start pipeline
+"""
 def main():
     preprocess_file()
     main_rf()

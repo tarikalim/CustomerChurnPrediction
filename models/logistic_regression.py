@@ -1,3 +1,11 @@
+"""
+This module implements a Logistic Regression classifier utilizing the BaseModel framework.
+It handles data loading, model training, evaluation, and reporting.
+
+The model uses StandardScaler preprocessing and balanced class weights to handle
+potential class imbalance in the churn dataset.
+"""
+
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
@@ -10,14 +18,19 @@ from sklearn.metrics import (
 
 from config import (
     OUTPUT_CSV_PATH, TEST_SIZE, RANDOM_STATE,
-    LR_C, LR_MAX_ITER ,LR_MODEL_PATH, LR_REPORT_PATH
+    LR_C, LR_MAX_ITER, LR_MODEL_PATH, LR_REPORT_PATH
 )
 from models.base_model import BaseModel
 from evaluation.plots import EvaluationReport
 
 
 def load_processed_data():
-    """Load cleaned CSV and split into train/test."""
+    """
+    Load cleaned CSV and split into train/test sets.
+
+    Returns:
+        X_train, X_test, y_train, y_test: Split dataset components
+    """
     df = pd.read_csv(OUTPUT_CSV_PATH)
     X = df.drop(columns=['Churn'])
     y = df['Churn']
@@ -30,11 +43,17 @@ def load_processed_data():
 
 
 class LogisticRegressionModel(BaseModel):
+    """
+    Logistic Regression model implementation for churn prediction.
+
+    This class extends BaseModel to provide a logistic regression classifier
+    with standardization preprocessing.
+    """
+
     def __init__(self):
-        # Define estimator with balanced classes
         lr = LogisticRegression(
             C=LR_C,
-            class_weight='balanced',
+            class_weight='balanced',  # Important for handling imbalanced churn data
             random_state=RANDOM_STATE,
             max_iter=LR_MAX_ITER
         )
@@ -47,6 +66,15 @@ class LogisticRegressionModel(BaseModel):
 
 
 def main_lr():
+    """
+    Main function to run the logistic regression modeling pipeline.
+
+    This function:
+    1. Loads and splits the processed data
+    2. Trains the logistic regression model
+    3. Evaluates model performance with multiple metrics
+    4. Saves the model and generates an evaluation report
+    """
     # Load and split data
     X_train, X_test, y_train, y_test = load_processed_data()
     # Train model
@@ -78,6 +106,3 @@ def main_lr():
         feature_names=None
     )
     report.save_report(LR_REPORT_PATH)
-
-
-

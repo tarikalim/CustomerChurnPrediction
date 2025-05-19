@@ -1,9 +1,27 @@
+"""
+This module handles the preprocessing of the Telco Customer Churn dataset, 
+preparing it for machine learning model consumption.
+
+Key functions:
+- load_data: Loads the raw Excel dataset
+- preprocess_dataframe: Main preprocessing pipeline that transforms raw data
+- preprocess_file: End-to-end function that loads, processes and saves data
+
+The preprocessing pipeline includes:
+- Removing irrelevant columns (geographic data, IDs, etc.)
+- Converting TotalCharges to numeric format 
+- Standardizing column names
+- Encoding binary (Yes/No) columns
+- One-hot encoding categorical variables
+"""
+
 import os
 import pandas as pd
 from config import INPUT_EXCEL_PATH, OUTPUT_CSV_PATH
 
 
 def load_data(path: str = INPUT_EXCEL_PATH) -> pd.DataFrame:
+    """Load the raw Telco dataset from Excel file."""
     return pd.read_excel(path)
 
 
@@ -59,7 +77,12 @@ def one_hot(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def preprocess_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Run preprocessing steps."""
+    """
+    Run full preprocessing pipeline on dataframe.
+
+    This is the main preprocessing function that orchestrates all transformation
+    steps in the correct order.
+    """
     df = clean_columns(df)
     df = ensure_numeric_total_charges(df)
     df = rename_columns(df)
@@ -72,6 +95,12 @@ def preprocess_file(
         input_path: str = INPUT_EXCEL_PATH,
         output_path: str = OUTPUT_CSV_PATH
 ) -> pd.DataFrame:
+    """
+    Process the raw dataset file and save the cleaned version.
+
+    Returns:
+        Preprocessed dataframe ready for model training
+    """
     df = load_data(input_path)
     df_clean = preprocess_dataframe(df)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)

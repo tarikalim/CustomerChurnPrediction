@@ -1,9 +1,10 @@
 import os
 
+"""
+Global configuration file to manage all constants and paths easily.
+"""
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
-
 INPUT_EXCEL_PATH = os.path.join(DATA_DIR, 'Telco_customer_churn.xlsx')
 OUTPUT_CSV_PATH = os.path.join(DATA_DIR, 'Telco_customer_churn_cleaned.csv')
 RF_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'artifacts', 'random_forest.pkl')

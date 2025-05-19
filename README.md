@@ -55,6 +55,6 @@ Logistic Regression.
 ##  Configuration
 
 All paths, metrics, and hyperparameters (`RF_N_ESTIMATORS`, `LR_C`, `TEST_SIZE`, etc.) are managed in
-`config/settings.py`.
+`config.py`.
 
 
